@@ -334,7 +334,16 @@ NS_ASSUME_NONNULL_BEGIN
     
     NSString *requestId = [body cdvwkStringForKey:@"id"];
     NSString *callbackFunction = [body cdvwkStringForKey:@"callback"];
-    NSString *urlString = [body cdvwkStringForKey:@"url"];
+    NSString *originalUrlString = [body cdvwkStringForKey:@"url"];
+    NSString *decodedUrlString = [originalUrlString stringByRemovingPercentEncoding];
+    NSString *urlString = @"";
+
+    if ([originalUrlString isEqualToString:decodedUrlString]) {
+        urlString = [originalUrlString stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet];
+    } else {
+        urlString = originalUrlString;
+    }
+
     NSString *method = [body cdvwkStringForKey:@"method"];
     
     __weak WKWebView* weakWebView = webView;

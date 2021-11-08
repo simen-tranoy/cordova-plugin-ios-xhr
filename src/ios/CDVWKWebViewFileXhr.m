@@ -334,14 +334,11 @@ NS_ASSUME_NONNULL_BEGIN
     
     NSString *requestId = [body cdvwkStringForKey:@"id"];
     NSString *callbackFunction = [body cdvwkStringForKey:@"callback"];
-    NSString *originalUrlString = [body cdvwkStringForKey:@"url"];
-    NSString *decodedUrlString = [originalUrlString stringByRemovingPercentEncoding];
-    NSString *urlString = @"";
+    NSString *urlString = [body cdvwkStringForKey:@"url"];
+    NSString *decodedUrlString = [urlString stringByRemovingPercentEncoding];
 
-    if ([originalUrlString isEqualToString:decodedUrlString]) {
-        urlString = [originalUrlString stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet];
-    } else {
-        urlString = originalUrlString;
+    if ([urlString isEqualToString:decodedUrlString]) {
+        urlString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet];
     }
 
     NSString *method = [body cdvwkStringForKey:@"method"];
